@@ -46,7 +46,7 @@ const loading = ref<boolean>(false)
 // 添加PromptStore
 const promptStore = usePromptStore()
 // 使用storeToRefs，保证store修改后，联想部分能够重新渲染
-const { promptList: promptTemplate } = storeToRefs<any>(promptStore)
+const { promptList: promptTemplate } = storeToRefs(promptStore)
 
 function handleSubmit() {
   onConversation()
@@ -392,7 +392,7 @@ const searchOptions = computed(() => {
 })
 // value反渲染key
 const renderOption = (option: { label: string }) => {
-  for (const i of promptTemplate.value) {
+  for (const i of promptTemplate.value as any) {
     if (i.value === option.label)
       return [i.key]
   }

@@ -1,7 +1,21 @@
 # ChatGPT Web
 
+<div style="font-size: 1.5rem;">
+  <a href="./README.md">中文</a> |
+  <a href="./README.en.md">English</a>
+   <a href="https://chat1.binjie.site:7777/">[DEMO]国内服务器镜像（仅境内可访问）</a>
+   <a href="https://chat.yqcloud.top/">[DEMO]cloudflare镜像（境内境外都可访问）</a>
+</div>
+</br>
+
+> 声明：此项目只发布于 Github，基于 MIT 协议，免费且作为开源学习使用。并且不会有任何形式的卖号、付费服务、讨论群、讨论组等行为。谨防受骗。
+
+![cover](./docs/c1.png)
+![cover2](./docs/c2.png)
+
 - [ChatGPT Web](#chatgpt-web)
 	- [介绍](#介绍)
+	- [待实现路线](#待实现路线)
 	- [前置要求](#前置要求)
 		- [Node](#node)
 		- [PNPM](#pnpm)
@@ -70,21 +84,37 @@ API_REVERSE_PROXY=
 /service/.env
 ```
 
+## 待实现路线
+[✓] 双模型
+
+[✓] 多会话储存和上下文逻辑
+
+[✓] 对代码等消息类型的格式化美化处理
+
+[✓] 访问权限控制
+
+[✓] 数据导入、导出
+
+[✓] 保存消息到本地图片
+
+[✓] 界面多语言
+
+[✓] 界面主题
+
+[✗] More...
+
 ## 前置要求
 
-### Node 18
+### Node
+
+`node` 需要 `^16 || ^18` 版本（`node >= 14` 需要安装 [fetch polyfill](https://github.com/developit/unfetch#usage-as-a-polyfill)），使用 [nvm](https://github.com/nvm-sh/nvm) 可管理本地多个 `node` 版本
 
 ```shell
-curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
-source ~/.bashrc
-nvm install 18
 node -v
-#v18.20.4
-npm -v
-#10.8.3
 ```
 
 ### PNPM
+如果你没有安装过 `pnpm`
 ```shell
 npm install pnpm -g
 ```
@@ -202,6 +232,26 @@ services:
 ```
 - `OPENAI_API_BASE_URL`  可选，设置 `OPENAI_API_KEY` 时可用
 - `OPENAI_API_MODEL`  可选，设置 `OPENAI_API_KEY` 时可用
+###  使用 Railway 部署
+
+[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template/yytmgc)
+
+#### Railway 环境变量
+
+| 环境变量名称          | 必填                   | 备注                                                                                               |
+| --------------------- | ---------------------- | -------------------------------------------------------------------------------------------------- |
+| `PORT`                | 必填                   | 默认 `3002`
+| `AUTH_SECRET_KEY`          | 可选                   | 访问权限密钥                                        |
+| `TIMEOUT_MS`          | 可选                   | 超时时间，单位毫秒                                                                             |
+| `OPENAI_API_KEY`      | `OpenAI API` 二选一    | 使用 `OpenAI API` 所需的 `apiKey` [(获取 apiKey)](https://platform.openai.com/overview)            |
+| `OPENAI_ACCESS_TOKEN` | `Web API` 二选一       | 使用 `Web API` 所需的 `accessToken` [(获取 accessToken)](https://chat.openai.com/api/auth/session) |
+| `OPENAI_API_BASE_URL`   | 可选，`OpenAI API` 时可用 |  `API`接口地址  |
+| `OPENAI_API_MODEL`   | 可选，`OpenAI API` 时可用 |  `API`模型  |
+| `API_REVERSE_PROXY`   | 可选，`Web API` 时可用 | `Web API` 反向代理地址 [详情](https://github.com/transitive-bullshit/chatgpt-api#reverse-proxy)    |
+| `SOCKS_PROXY_HOST`   | 可选，和 `SOCKS_PROXY_PORT` 一起时生效 | Socks代理    |
+| `SOCKS_PROXY_PORT`   | 可选，和 `SOCKS_PROXY_HOST` 一起时生效 | Socks代理端口    |
+
+> 注意: `Railway` 修改环境变量会重新 `Deploy`
 
 ### 手动打包
 #### 后端服务
@@ -278,30 +328,3 @@ A: 一种可能原因是经过 Nginx 反向代理，开启了 buffer，则 Nginx
 
 ## License
 MIT © [ChenZhaoYu](./license)
-
-
-# 简易编译指南
-
-## 环境安装
-
-```shell
-curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
-source ~/.bashrc
-nvm install 18
-node -v
-#v18.20.4
-npm -v
-#10.8.3
-npm install pnpm -g
-```
-
-## 修改完成后前端手动编译
-
-```shell
-pnpm bootstrap
-pnpm build
-```
-
-## 编译完成
-
-- 将根目录 `dist/` 生成的文件放到自己网站即可访问
